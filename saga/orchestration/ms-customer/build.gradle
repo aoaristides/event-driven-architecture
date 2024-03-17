@@ -1,11 +1,25 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.flywaydb:flyway-mysql:10.10.0'
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.flywaydb.flyway' version '10.10.0'
+}
+
+repositories {
+    mavenCentral()
 }
 
 group = 'br.com.makersweb'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 
 java {
     sourceCompatibility = '21'
@@ -17,8 +31,9 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()
+bootJar {
+    archiveFileName.set('customer.jar')
+    destinationDirectory.set(file("${rootProject.buildDir}/libs"))
 }
 
 dependencies {
@@ -30,6 +45,12 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+flyway {
+    url = System.getenv('FLYWAY_DB') ?: 'jdbc:mysql://localhost:3307/makersdb'
+    user = System.getenv('FLYWAY_USER') ?: 'root'
+    password = System.getenv('FLYWAY_PASS') ?: 'Salmos89!'
 }
 
 tasks.named('test') {

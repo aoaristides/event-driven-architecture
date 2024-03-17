@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql:
+    container_name: adm_makers_mysql
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=Salmos89!
+      - MYSQL_DATABASE=makersdb
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "3307:3306"
+    networks:
+      - adm_makers_network
+
+networks:
+  adm_makers_network:
