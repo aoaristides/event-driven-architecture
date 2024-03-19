@@ -15,8 +15,8 @@ import java.time.LocalDate;
 /**
  * @author aaristides
  */
-@Entity(name = "User")
-@Table(name = "tb_users")
+@Entity(name = "Customer")
+@Table(name = "customers")
 public class CustomerJpaEntity implements Serializable {
 
     @Id
@@ -40,9 +40,6 @@ public class CustomerJpaEntity implements Serializable {
 
     @Column(name = "active", nullable = false)
     private boolean active;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-//    private Set<UserAddressJpaEntity> addresses;
 
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP")
     private Instant createdAt;
@@ -100,7 +97,7 @@ public class CustomerJpaEntity implements Serializable {
                 CustomerID.from(getId()),
                 getName(),
                 getDocument(),
-                CustomerType.valueOf(getType()),
+                getType(),
                 getPhone(),
                 getBirthDate(),
                 isActive(),

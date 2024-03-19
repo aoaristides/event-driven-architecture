@@ -8,7 +8,7 @@ import br.com.makersweb.mscustomer.infrastructure.customer.models.CustomerRespon
 /**
  * @author aaristides
  */
-public interface UserApiPresenter {
+public interface CustomerApiPresenter {
 
     static CustomerResponse present(final CustomerOutput output) {
         return new CustomerResponse(

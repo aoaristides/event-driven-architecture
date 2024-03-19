@@ -6,7 +6,7 @@ import br.com.makersweb.mscustomer.domain.customer.CustomerID;
 import br.com.makersweb.mscustomer.domain.pagination.Pagination;
 import br.com.makersweb.mscustomer.domain.pagination.SearchQuery;
 import br.com.makersweb.mscustomer.infrastructure.customer.persistence.CustomerJpaEntity;
-import br.com.makersweb.mscustomer.infrastructure.customer.persistence.UserRepository;
+import br.com.makersweb.mscustomer.infrastructure.customer.persistence.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,9 +27,9 @@ import static br.com.makersweb.mscustomer.infrastructure.utils.SpecificationUtil
 @Slf4j
 public class DefaultCustomerGateway implements CustomerGateway {
 
-    private final UserRepository repository;
+    private final CustomerRepository repository;
 
-    public DefaultCustomerGateway(final UserRepository repository) {
+    public DefaultCustomerGateway(final CustomerRepository repository) {
         this.repository = Objects.requireNonNull(repository);
     }
 

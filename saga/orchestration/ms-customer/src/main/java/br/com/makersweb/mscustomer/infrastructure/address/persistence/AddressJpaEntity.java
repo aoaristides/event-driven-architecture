@@ -2,19 +2,19 @@ package br.com.makersweb.mscustomer.infrastructure.address.persistence;
 
 import br.com.makersweb.mscustomer.domain.address.Address;
 import br.com.makersweb.mscustomer.domain.address.AddressID;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import br.com.makersweb.mscustomer.domain.customer.CustomerID;
+import br.com.makersweb.mscustomer.infrastructure.customer.persistence.CustomerJpaEntity;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Optional;
 
 /**
  * @author aaristides
  */
 @Entity(name = "Address")
-@Table(name = "tb_address")
+@Table(name = "addresses")
 public class AddressJpaEntity implements Serializable {
 
     @Id
@@ -47,6 +47,10 @@ public class AddressJpaEntity implements Serializable {
 
     @Column(name = "ad_default", nullable = false)
     private boolean addressDefault;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private CustomerJpaEntity customer;
 
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP")
     private Instant createdAt;
@@ -120,11 +124,18 @@ public class AddressJpaEntity implements Serializable {
                 getDistrict(),
                 isActive(),
                 isAddressDefault(),
-                null,
+                CustomerID.from(Optional.ofNullable(getCustomer())
+                        .map(CustomerJpaEntity::getId)
+                        .orElse(null)),
                 getCreatedAt(),
                 getUpdatedAt(),
                 getDeletedAt()
         );
+    }
+
+    public AddressJpaEntity addCustomer(final CustomerJpaEntity customer) {
+        this.customer = customer;
+        return this;
     }
 
     public String getId() {
@@ -214,6 +225,15 @@ public class AddressJpaEntity implements Serializable {
 
     public AddressJpaEntity setAddressDefault(boolean addressDefault) {
         this.addressDefault = addressDefault;
+        return this;
+    }
+
+    public CustomerJpaEntity getCustomer() {
+        return customer;
+    }
+
+    public AddressJpaEntity setCustomer(CustomerJpaEntity customer) {
+        this.customer = customer;
         return this;
     }
 

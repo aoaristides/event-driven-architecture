@@ -8,7 +8,7 @@ package br.com.makersweb.mscustomer.application.address.create;
  * @param state
  * @param postalCode
  * @param complement
- * @param neighborhood
+ * @param district
  * @param isActive
  */
 public record CreateAddressCommand(
@@ -18,7 +18,7 @@ public record CreateAddressCommand(
         String state,
         String postalCode,
         String complement,
-        String neighborhood,
+        String district,
         boolean isActive
 ) {
 
@@ -29,10 +29,10 @@ public record CreateAddressCommand(
             final String state,
             final String postalCode,
             final String complement,
-            final String neighborhood,
+            final String district,
             final Boolean isActive
     ) {
-        return new CreateAddressCommand(street, streetNumber, city, state, postalCode, complement, neighborhood, isActive != null ? isActive : true);
+        return new CreateAddressCommand(street, streetNumber, city, state, postalCode, complement, district, isActive);
     }
 
 }

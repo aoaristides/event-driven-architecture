@@ -29,7 +29,7 @@ public class DefaultCreateAddressUseCase extends CreateAddressUseCase {
         final var state = anIn.state();
         final var postalCode = anIn.postalCode();
         final var complement = anIn.complement();
-        final var neighborhood = anIn.neighborhood();
+        final var neighborhood = anIn.district();
         final var isActive = anIn.isActive();
 
         final var notification = Notification.create();

@@ -1,39 +1,36 @@
-package br.com.makersweb.mscustomer.application.customer.create;
-
-import br.com.makersweb.mscustomer.application.address.create.CreateAddressCommand;
+package br.com.makersweb.mscustomer.application.customer.update;
 
 import java.time.LocalDate;
 
 /**
  * @author aaristides
+ * @param id
  * @param name
  * @param document
  * @param type
  * @param phoneNumber
  * @param birthDate
- * @param address
  * @param isActive
  */
-public record CreateCustomerCommand(
+public record UpdateCustomerCommand(
+        String id,
         String name,
         String document,
         String type,
         String phoneNumber,
         LocalDate birthDate,
-        CreateAddressCommand address,
         boolean isActive
 ) {
 
-    public static CreateCustomerCommand with(
+    public static UpdateCustomerCommand with(
+            final String id,
             final String name,
             final String document,
             final String type,
             final String phoneNumber,
             final LocalDate birthDate,
-            final CreateAddressCommand address,
             final boolean isActive
     ) {
-        return new CreateCustomerCommand(name, document, type, phoneNumber, birthDate, address, isActive);
+        return new UpdateCustomerCommand(id, name, document, type, phoneNumber, birthDate, isActive);
     }
-
 }

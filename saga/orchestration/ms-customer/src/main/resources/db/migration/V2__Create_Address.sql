@@ -1,4 +1,4 @@
-CREATE TABLE address
+CREATE TABLE addresses
 (
     id               VARCHAR(255)  NOT NULL PRIMARY KEY,
     street           VARCHAR(255) NOT NULL,

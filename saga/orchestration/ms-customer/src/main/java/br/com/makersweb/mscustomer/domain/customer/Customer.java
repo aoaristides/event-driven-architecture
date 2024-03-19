@@ -27,7 +27,7 @@ public class Customer extends AggregateRoot<CustomerID> {
             final CustomerID customerID,
             final String name,
             final String document,
-            final CustomerType type,
+            final String type,
             final String phone,
             final LocalDate birthday,
             final boolean active,
@@ -36,9 +36,9 @@ public class Customer extends AggregateRoot<CustomerID> {
             final Instant deletedAt
     ) {
         super(customerID);
+        CustomerType.get(type).ifPresent(customerType -> this.type = customerType);
         this.name = name;
         this.document = document;
-        this.type = type;
         this.phone = phone;
         this.birthday = birthday;
         this.active = active;
@@ -50,7 +50,7 @@ public class Customer extends AggregateRoot<CustomerID> {
     public static Customer newCustomer(
             final String name,
             final String document,
-            final CustomerType type,
+            final String type,
             final String phone,
             final LocalDate birthday,
             final boolean isActive
@@ -65,7 +65,7 @@ public class Customer extends AggregateRoot<CustomerID> {
             final CustomerID customerID,
             final String name,
             final String document,
-            final CustomerType type,
+            final String type,
             final String phone,
             final LocalDate birthday,
             final boolean active,
@@ -81,7 +81,7 @@ public class Customer extends AggregateRoot<CustomerID> {
                 aCustomer.getId(),
                 aCustomer.name,
                 aCustomer.document,
-                aCustomer.type,
+                aCustomer.type.name(),
                 aCustomer.phone,
                 aCustomer.birthday,
                 aCustomer.active,
@@ -116,7 +116,7 @@ public class Customer extends AggregateRoot<CustomerID> {
     public Customer update(
             final String name,
             final String document,
-            final CustomerType type,
+            final String type,
             final String phone,
             final LocalDate birthday,
             final boolean isActive
@@ -126,9 +126,9 @@ public class Customer extends AggregateRoot<CustomerID> {
         } else {
             deactivate();
         }
+        CustomerType.get(type).ifPresent(customerType -> this.type = customerType);
         this.name = name;
         this.document = document;
-        this.type = type;
         this.phone = phone;
         this.birthday = birthday;
         this.updatedAt = Instant.now();
