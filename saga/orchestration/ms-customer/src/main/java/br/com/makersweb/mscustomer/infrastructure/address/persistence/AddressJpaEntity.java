@@ -2,7 +2,6 @@ package br.com.makersweb.mscustomer.infrastructure.address.persistence;
 
 import br.com.makersweb.mscustomer.domain.address.Address;
 import br.com.makersweb.mscustomer.domain.address.AddressID;
-import br.com.makersweb.mscustomer.domain.customer.CustomerID;
 import br.com.makersweb.mscustomer.infrastructure.customer.persistence.CustomerJpaEntity;
 import jakarta.persistence.*;
 
@@ -65,7 +64,7 @@ public class AddressJpaEntity implements Serializable {
     }
 
     private AddressJpaEntity(
-            final String anId,
+            final String id,
             final String street,
             final String streetNumber,
             final String city,
@@ -75,11 +74,12 @@ public class AddressJpaEntity implements Serializable {
             final String district,
             final boolean active,
             final boolean addressDefault,
+            final CustomerJpaEntity customer,
             final Instant createdAt,
             final Instant updatedAt,
             final Instant deletedAt
     ) {
-        this.id = anId;
+        this.id = id;
         this.street = street;
         this.streetNumber = streetNumber;
         this.city = city;
@@ -89,6 +89,7 @@ public class AddressJpaEntity implements Serializable {
         this.district = district;
         this.active = active;
         this.addressDefault = addressDefault;
+        this.customer = customer;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -106,6 +107,7 @@ public class AddressJpaEntity implements Serializable {
                 aAddress.getDistrict(),
                 aAddress.isActive(),
                 aAddress.isAddressDefault(),
+                CustomerJpaEntity.from(aAddress.getCustomer()),
                 aAddress.getCreatedAt(),
                 aAddress.getUpdatedAt(),
                 aAddress.getDeletedAt()
@@ -124,9 +126,9 @@ public class AddressJpaEntity implements Serializable {
                 getDistrict(),
                 isActive(),
                 isAddressDefault(),
-                CustomerID.from(Optional.ofNullable(getCustomer())
-                        .map(CustomerJpaEntity::getId)
-                        .orElse(null)),
+                Optional.ofNullable(getCustomer())
+                        .map(CustomerJpaEntity::toAggregate)
+                        .orElse(null),
                 getCreatedAt(),
                 getUpdatedAt(),
                 getDeletedAt()

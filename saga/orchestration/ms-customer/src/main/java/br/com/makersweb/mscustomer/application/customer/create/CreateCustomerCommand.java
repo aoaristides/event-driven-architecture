@@ -1,7 +1,5 @@
 package br.com.makersweb.mscustomer.application.customer.create;
 
-import br.com.makersweb.mscustomer.application.address.create.CreateAddressCommand;
-
 import java.time.LocalDate;
 
 /**
@@ -11,7 +9,6 @@ import java.time.LocalDate;
  * @param type
  * @param phoneNumber
  * @param birthDate
- * @param address
  * @param isActive
  */
 public record CreateCustomerCommand(
@@ -20,7 +17,6 @@ public record CreateCustomerCommand(
         String type,
         String phoneNumber,
         LocalDate birthDate,
-        CreateAddressCommand address,
         boolean isActive
 ) {
 
@@ -30,10 +26,9 @@ public record CreateCustomerCommand(
             final String type,
             final String phoneNumber,
             final LocalDate birthDate,
-            final CreateAddressCommand address,
             final boolean isActive
     ) {
-        return new CreateCustomerCommand(name, document, type, phoneNumber, birthDate, address, isActive);
+        return new CreateCustomerCommand(name, document, type, phoneNumber, birthDate, isActive);
     }
 
 }

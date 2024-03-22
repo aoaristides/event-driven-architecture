@@ -1,7 +1,7 @@
 package br.com.makersweb.mscustomer.domain.address;
 
 import br.com.makersweb.mscustomer.domain.AggregateRoot;
-import br.com.makersweb.mscustomer.domain.customer.CustomerID;
+import br.com.makersweb.mscustomer.domain.customer.Customer;
 import br.com.makersweb.mscustomer.domain.utils.InstantUtils;
 import br.com.makersweb.mscustomer.domain.validation.ValidationHandler;
 
@@ -22,7 +22,7 @@ public class Address extends AggregateRoot<AddressID> {
     private String district;
     private boolean active;
     private boolean addressDefault;
-    private CustomerID customer;
+    private Customer customer;
     private Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
@@ -38,7 +38,7 @@ public class Address extends AggregateRoot<AddressID> {
             final String district,
             final boolean active,
             final boolean addressDefault,
-            final CustomerID customer,
+            final Customer customer,
             final Instant createdAt,
             final Instant updatedAt,
             final Instant deletedAt
@@ -68,13 +68,12 @@ public class Address extends AggregateRoot<AddressID> {
             final String complement,
             final String district,
             final boolean active,
-            final boolean addressDefault,
-            final CustomerID customer
+            final boolean addressDefault
     ) {
         final var anId = AddressID.unique();
         final var now = InstantUtils.now();
         final var deletedAt = active ? null : now;
-        return new Address(anId, street, streetNumber, city, state, postalCode, complement, district, active, addressDefault, customer, now, now, deletedAt);
+        return new Address(anId, street, streetNumber, city, state, postalCode, complement, district, active, addressDefault, null, now, now, deletedAt);
     }
 
     public static Address with(
@@ -88,7 +87,7 @@ public class Address extends AggregateRoot<AddressID> {
             final String district,
             final boolean active,
             final boolean addressDefault,
-            final CustomerID customer,
+            final Customer customer,
             final Instant createdAt,
             final Instant updatedAt,
             final Instant deletedAt
@@ -144,7 +143,7 @@ public class Address extends AggregateRoot<AddressID> {
             final String district,
             final boolean isActive,
             final boolean addressDefault,
-            final CustomerID customer
+            final Customer customer
     ) {
         if (isActive) {
             activate(addressDefault);
@@ -167,6 +166,12 @@ public class Address extends AggregateRoot<AddressID> {
     @Override
     public void validate(final ValidationHandler handler) {
         new AddressValidator(this, handler).validate();
+    }
+
+    public Address addCustomer(final Customer customer) {
+        this.customer = customer;
+        this.updatedAt = InstantUtils.now();
+        return this;
     }
 
     public AddressID getId() {
@@ -204,12 +209,11 @@ public class Address extends AggregateRoot<AddressID> {
     public boolean isActive() {
         return active;
     }
-
     public boolean isAddressDefault() {
         return addressDefault;
     }
 
-    public CustomerID getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 

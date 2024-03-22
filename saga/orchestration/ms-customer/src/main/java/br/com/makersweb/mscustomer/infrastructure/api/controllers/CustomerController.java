@@ -1,6 +1,8 @@
 package br.com.makersweb.mscustomer.infrastructure.api.controllers;
 
 import br.com.makersweb.mscustomer.application.address.create.CreateAddressCommand;
+import br.com.makersweb.mscustomer.application.address.create.CreateAddressOutput;
+import br.com.makersweb.mscustomer.application.address.create.CreateAddressUseCase;
 import br.com.makersweb.mscustomer.application.customer.create.CreateCustomerCommand;
 import br.com.makersweb.mscustomer.application.customer.create.CreateCustomerOutput;
 import br.com.makersweb.mscustomer.application.customer.create.CreateCustomerUseCase;
@@ -33,6 +35,7 @@ import java.util.function.Function;
 public class CustomerController implements CustomerAPI {
 
     private final CreateCustomerUseCase createCustomerUseCase;
+    private final CreateAddressUseCase createAddressUseCase;
     private final GetCustomerByIdUseCase getCustomerByIdUseCase;
     private final UpdateCustomerUseCase updateCustomerUseCase;
     private final DeleteCustomerCase deleteCustomerCase;
@@ -40,12 +43,14 @@ public class CustomerController implements CustomerAPI {
 
     public CustomerController(
             final CreateCustomerUseCase createCustomerUseCase,
+            final CreateAddressUseCase createAddressUseCase,
             final GetCustomerByIdUseCase getCustomerByIdUseCase,
             final UpdateCustomerUseCase updateCustomerUseCase,
             final DeleteCustomerCase deleteCustomerCase,
             final ListCustomerUseCase listCustomerUseCase
     ) {
         this.createCustomerUseCase = createCustomerUseCase;
+        this.createAddressUseCase = createAddressUseCase;
         this.getCustomerByIdUseCase = getCustomerByIdUseCase;
         this.updateCustomerUseCase = updateCustomerUseCase;
         this.deleteCustomerCase = deleteCustomerCase;
@@ -54,23 +59,12 @@ public class CustomerController implements CustomerAPI {
 
     @Override
     public ResponseEntity<?> createCustomer(final CreateCustomerRequest input) {
-        final var address = input.address();
         final var aCommand = CreateCustomerCommand.with(
                 input.name(),
                 input.document(),
                 input.type(),
                 input.phoneNumber(),
                 input.birthDate(),
-                CreateAddressCommand.with(
-                        address.street(),
-                        address.streetNumber(),
-                        address.city(),
-                        address.state(),
-                        address.postalCode(),
-                        address.complement(),
-                        address.district(),
-                        address.active() != null ? address.active() : true
-                ),
                 input.active() != null ? input.active() : true
         );
 
@@ -81,6 +75,30 @@ public class CustomerController implements CustomerAPI {
                 ResponseEntity.created(URI.create("/customers/" + output.id())).body(output);
 
         return this.createCustomerUseCase.execute(aCommand).fold(onError, onSuccess);
+    }
+
+    @Override
+    public ResponseEntity<?> createAddressById(final String id, final CreateAddressRequest input) {
+        final var aCommand = CreateAddressCommand.with(
+                id,
+                input.street(),
+                input.streetNumber(),
+                input.city(),
+                input.state(),
+                input.postalCode(),
+                input.complement(),
+                input.district(),
+                input.active() != null ? input.active() : true,
+                input.isDefault() != null ? input.isDefault() : true
+        );
+
+        final Function<Notification, ResponseEntity<?>> onError = notification ->
+                ResponseEntity.unprocessableEntity().body(notification);
+
+        final Function<CreateAddressOutput, ResponseEntity<?>> onSuccess = output ->
+                ResponseEntity.created(URI.create("/customers/" + id + "/address/" + output.id())).body(output);
+
+        return this.createAddressUseCase.execute(aCommand).fold(onError, onSuccess);
     }
 
     @Override

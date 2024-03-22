@@ -2,7 +2,6 @@ package br.com.makersweb.mscustomer.infrastructure.customer.persistence;
 
 import br.com.makersweb.mscustomer.domain.customer.Customer;
 import br.com.makersweb.mscustomer.domain.customer.CustomerID;
-import br.com.makersweb.mscustomer.domain.customer.CustomerType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

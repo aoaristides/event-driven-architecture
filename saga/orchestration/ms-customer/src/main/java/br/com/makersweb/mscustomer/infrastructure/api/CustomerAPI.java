@@ -1,6 +1,7 @@
 package br.com.makersweb.mscustomer.infrastructure.api;
 
 import br.com.makersweb.mscustomer.domain.pagination.Pagination;
+import br.com.makersweb.mscustomer.infrastructure.address.models.CreateAddressRequest;
 import br.com.makersweb.mscustomer.infrastructure.customer.models.CreateCustomerRequest;
 import br.com.makersweb.mscustomer.infrastructure.customer.models.CustomerListResponse;
 import br.com.makersweb.mscustomer.infrastructure.customer.models.CustomerResponse;
@@ -32,6 +33,19 @@ public interface CustomerAPI {
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
     })
     ResponseEntity<?> createCustomer(@RequestBody CreateCustomerRequest input);
+
+    @PostMapping(
+            value = "{id}/address",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "Create a new address by it's identifier customer")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created successfully"),
+            @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
+    })
+    ResponseEntity<?> createAddressById(@PathVariable(name = "id") String id, @RequestBody CreateAddressRequest input);
 
     @GetMapping
     @Operation(summary = "List all customers paginated")

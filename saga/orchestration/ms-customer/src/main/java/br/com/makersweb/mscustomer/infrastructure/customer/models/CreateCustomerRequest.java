@@ -1,10 +1,8 @@
 package br.com.makersweb.mscustomer.infrastructure.customer.models;
 
-import br.com.makersweb.mscustomer.infrastructure.address.models.CreateAddressRequest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * @author aaristides
@@ -13,10 +11,8 @@ import java.util.List;
  * @param type
  * @param phoneNumber
  * @param birthDate
- * @param gender
- * @param photo
+ * @param mail
  * @param active
- * @param address
  */
 public record CreateCustomerRequest(
         @JsonProperty("name") String name,
@@ -24,9 +20,7 @@ public record CreateCustomerRequest(
         @JsonProperty("type") String type,
         @JsonProperty("phone_number") String phoneNumber,
         @JsonProperty("birth_date") LocalDate birthDate,
-        @JsonProperty("gender") String gender,
-        @JsonProperty("photo") String photo,
-        @JsonProperty("is_active") Boolean active,
-        @JsonProperty("address") CreateAddressRequest address
+        @JsonProperty("mail") String mail,
+        @JsonProperty("is_active") Boolean active
 ) {
 }

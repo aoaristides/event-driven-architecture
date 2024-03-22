@@ -22,23 +22,16 @@ public class ThrowsValidationHandler implements ValidationHandler {
     }
 
     @Override
-    public ValidationHandler validate(final Validation anValidation) {
+    public <T> T validate(final Validation<T> aValidation) {
         try {
-            anValidation.validate();
+            return aValidation.validate();
         } catch (final Exception ex) {
             throw DomainException.with(new Error(ex.getMessage()));
         }
-
-        return this;
     }
 
     @Override
     public List<Error> getErrors() {
         return List.of();
-    }
-
-    @Override
-    public boolean hasError() {
-        return ValidationHandler.super.hasError();
     }
 }

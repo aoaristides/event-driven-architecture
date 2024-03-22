@@ -2,6 +2,7 @@ package br.com.makersweb.mscustomer.application.address.create;
 
 /**
  * @author aaristides
+ * @param customer
  * @param street
  * @param streetNumber
  * @param city
@@ -10,8 +11,10 @@ package br.com.makersweb.mscustomer.application.address.create;
  * @param complement
  * @param district
  * @param isActive
+ * @param isDefault
  */
 public record CreateAddressCommand(
+        String customer,
         String street,
         String streetNumber,
         String city,
@@ -19,10 +22,12 @@ public record CreateAddressCommand(
         String postalCode,
         String complement,
         String district,
-        boolean isActive
+        boolean isActive,
+        boolean isDefault
 ) {
 
     public static CreateAddressCommand with(
+            final String customer,
             final String street,
             final String streetNumber,
             final String city,
@@ -30,9 +35,10 @@ public record CreateAddressCommand(
             final String postalCode,
             final String complement,
             final String district,
-            final Boolean isActive
+            final Boolean isActive,
+            final Boolean isDefault
     ) {
-        return new CreateAddressCommand(street, streetNumber, city, state, postalCode, complement, district, isActive);
+        return new CreateAddressCommand(customer, street, streetNumber, city, state, postalCode, complement, district, isActive, isDefault);
     }
 
 }

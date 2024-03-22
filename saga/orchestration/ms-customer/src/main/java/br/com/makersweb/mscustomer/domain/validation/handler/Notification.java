@@ -14,7 +14,7 @@ public class Notification implements ValidationHandler {
 
     private final List<Error> errors;
 
-    private Notification(List<Error> errors) {
+    private Notification(final List<Error> errors) {
         this.errors = errors;
     }
 
@@ -43,15 +43,15 @@ public class Notification implements ValidationHandler {
     }
 
     @Override
-    public Notification validate(final Validation aValidation) {
+    public <T> T validate(final Validation<T> aValidation) {
         try {
-            aValidation.validate();
+            return aValidation.validate();
         } catch (final DomainException ex) {
             this.errors.addAll(ex.getErrors());
         } catch (final Throwable t) {
             this.errors.add(new Error(t.getMessage()));
         }
-        return this;
+        return null;
     }
 
     @Override

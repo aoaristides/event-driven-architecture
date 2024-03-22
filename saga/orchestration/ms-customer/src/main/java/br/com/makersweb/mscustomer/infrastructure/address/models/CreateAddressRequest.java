@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @param complement
  * @param district
  * @param active
+ * @param isDefault
  */
 public record CreateAddressRequest(
         @JsonProperty("street") String street,
@@ -21,6 +22,7 @@ public record CreateAddressRequest(
         @JsonProperty("postal_code") String postalCode,
         @JsonProperty("complement")  String complement,
         @JsonProperty("district") String district,
-        @JsonProperty("is_active") Boolean active
+        @JsonProperty("is_active") Boolean active,
+        @JsonProperty("is_default") Boolean isDefault
 ) {
 }
