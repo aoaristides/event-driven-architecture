@@ -9,3 +9,15 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: none
+
+makersweb:
+  aws:
+    access-key: localstackKeyId
+    secret-key: Tulipa89!
+    endpoint: http://localhost:4566
+    region: ${AWS_REGION:us-east-1}
+    sqs:
+      customer-service:
+        queue: customerServiceQueue
+      notification-return:
+        queue: notificationReturnQueue

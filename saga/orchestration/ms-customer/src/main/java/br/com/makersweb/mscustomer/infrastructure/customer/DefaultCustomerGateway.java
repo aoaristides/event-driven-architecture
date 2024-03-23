@@ -3,11 +3,14 @@ package br.com.makersweb.mscustomer.infrastructure.customer;
 import br.com.makersweb.mscustomer.domain.customer.Customer;
 import br.com.makersweb.mscustomer.domain.customer.CustomerGateway;
 import br.com.makersweb.mscustomer.domain.customer.CustomerID;
+import br.com.makersweb.mscustomer.domain.exceptions.DomainException;
 import br.com.makersweb.mscustomer.domain.pagination.Pagination;
 import br.com.makersweb.mscustomer.domain.pagination.SearchQuery;
+import br.com.makersweb.mscustomer.domain.validation.Error;
 import br.com.makersweb.mscustomer.infrastructure.customer.persistence.CustomerJpaEntity;
 import br.com.makersweb.mscustomer.infrastructure.customer.persistence.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -97,7 +100,11 @@ public class DefaultCustomerGateway implements CustomerGateway {
     }
 
     private Customer save(final Customer aUser) {
-        return this.repository.save(CustomerJpaEntity.from(aUser)).toAggregate();
+        try {
+            return this.repository.save(CustomerJpaEntity.from(aUser)).toAggregate();
+        } catch (DataIntegrityViolationException e) {
+            throw DomainException.with(new Error("Already exist Customer by document - %s".formatted(aUser.getDocument())));
+        }
     }
 
     private Specification<CustomerJpaEntity> assembleSpecification(final String str) {
