@@ -1,6 +1,54 @@
-version: '3'
+version: '3.8'
 
 services:
+
+  order-db:
+    image: mongo:latest
+    container_name: order-db
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+    networks:
+      - orchestrator-saga
+
+  product-db:
+    image: postgres:latest
+    container_name: product-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=product-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - orchestrator-saga
+
+  payment-db:
+    image: postgres:latest
+    container_name: payment-db
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=payment-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - orchestrator-saga
+
+  inventory-db:
+    image: postgres:latest
+    container_name: inventory-db
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=inventory-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - orchestrator-saga
 
   kafka:
     container_name: kafka
@@ -21,7 +69,7 @@ services:
       KAFKA_RESTART_DELAY: "5"
       ZOOKEEPER_AUTOPURGE_PURGE_INTERVAL: "0"
     volumes:
-      - ./data/kafka/data:/var/lib/kafka/data
+      - "./.docker/data/kafka/data:/var/lib/kafka/data"
 
   redpanda-console:
     container_name: redpanda
