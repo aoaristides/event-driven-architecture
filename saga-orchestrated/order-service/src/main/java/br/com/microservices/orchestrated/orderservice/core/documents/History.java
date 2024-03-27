@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * @author aaristides
@@ -19,6 +19,6 @@ public class History {
     private String source;
     private String status;
     private String message;
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
 }

@@ -26,6 +26,7 @@ public class JsonUtil {
         try {
             return objectMapper.readValue(json, Event.class);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ public class Order {
 
     private String id;
     private List<OrderProduct> products;
-    private Instant createdAt;
+    private LocalDateTime createdAt;
     private String transactionId;
     private double totalAmount;
     private int totalItems;
