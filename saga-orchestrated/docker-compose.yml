@@ -10,7 +10,9 @@ services:
       - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=123456
+      - MONGO_INITDB_ROOT_PASSWORD=salmos89
+    volumes:
+      - "./.docker/data/mongo:/data/db"
     networks:
       - orchestrator-saga
 
@@ -23,6 +25,8 @@ services:
       - POSTGRES_DB=product-db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - "./.docker/data/productdb:/var/lib/postgresql/data"
     networks:
       - orchestrator-saga
 
@@ -35,6 +39,8 @@ services:
       - POSTGRES_DB=payment-db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - "./.docker/data/paymentdb:/var/lib/postgresql/data"
     networks:
       - orchestrator-saga
 
@@ -47,6 +53,8 @@ services:
       - POSTGRES_DB=inventory-db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - "./.docker/data/inventorydb:/var/lib/postgresql/data"
     networks:
       - orchestrator-saga
 
