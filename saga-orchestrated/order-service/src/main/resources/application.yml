@@ -22,3 +22,8 @@ logging:
     org:
       apache:
         kafka: OFF
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG

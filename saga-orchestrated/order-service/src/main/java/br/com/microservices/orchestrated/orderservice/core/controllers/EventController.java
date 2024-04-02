@@ -25,7 +25,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.findByFilters(filters));
     }
 
-    @GetMapping("/all")
+    @GetMapping("all")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(eventService.findAll());
     }
