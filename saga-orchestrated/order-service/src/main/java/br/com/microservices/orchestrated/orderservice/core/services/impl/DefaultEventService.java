@@ -8,11 +8,8 @@ import br.com.microservices.orchestrated.orderservice.core.services.EventService
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
