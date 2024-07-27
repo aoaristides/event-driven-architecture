@@ -127,7 +127,7 @@ public class DefaultPaymentService implements PaymentService {
     }
 
     private void checkCurrentValidation(final Event event) {
-        if (paymentRepository.existsByOrderIdAndTransactionId(event.getPayload().getId(), event.getTransactionId())) {
+        if (paymentRepository.existsByOrderIdAndTransactionId(event.getOrderId(), event.getTransactionId())) {
             throw new ValidationException("There's another transactionId for this validation.");
         }
     }
